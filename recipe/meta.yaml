@@ -25,8 +25,6 @@ requirements:
     - python
     - hatchling
     - pip
-    - setuptools
-    - wheel
   run:
     - python
     - orjson >=3.9.10,<3.11
