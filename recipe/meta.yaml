@@ -1,5 +1,5 @@
 {% set name = "mistralai" %}
-{% set version = "0.4.2" %}
+{% set version = "1.7.0" %}
 
 package:
   name: {{ name|lower }}
@@ -7,23 +7,34 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/mistralai-{{ version }}.tar.gz
-  sha256: 5eb656710517168ae053f9847b0bb7f617eda07f1f93f946ad6c91a4d407fd93
+  sha256: 94e3eb23c1d3ed398a95352062fd8c92993cc3754ed18e9a35b60aa3db0bd103
+  patches:
+    # Switch from poetry-core to hatchling to work with [project] section metadata upstream
+    - patches/0001-fix-build-system.patch
 
 build:
-  noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
+  skip: True  # [py<310]
 
 requirements:
+  build:
+    - patch
+    - m2-patch
   host:
-    - python >=3.9,<4.0
-    - poetry-core
+    - python
+    - hatchling
     - pip
+    - setuptools
+    - wheel
   run:
-    - python >=3.9,<4.0
+    - python
     - orjson >=3.9.10,<3.11
-    - pydantic >=2.5.2,<3
-    - httpx >=0.25,<1
+    - pydantic >=2.10.3
+    - httpx >=0.28.1
+    - eval-type-backport >=0.2.0
+    - typing-inspection >=0.4.0
+    - python-dateutil >=2.8.2
 
 test:
   imports:
@@ -35,9 +46,17 @@ test:
 
 about:
   home: https://github.com/mistralai/client-python
-  summary: Python client library for Mistral AI platform 
+  summary: Python client library for Mistral AI platform
   license: Apache-2.0
   license_file: LICENSE
+  license_family: Apache
+  description: |
+    Mistral AI is a leading open-source generative AI platform.
+    This is the official Python client library for Mistral AI,
+    which provides a simple and efficient way to interact with
+    the Mistral API.
+  doc_url: https://github.com/mistralai/client-python
+  dev_url: https://github.com/mistralai/client-python
 
 extra:
   recipe-maintainers:

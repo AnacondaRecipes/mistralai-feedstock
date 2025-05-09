@@ -1,0 +1,15 @@
+diff --git a/pyproject.toml b/pyproject.toml
+index a11eef2..7d8e5a5 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -45,8 +45,8 @@ gcp = [
+ ]
+
+ [build-system]
+-requires = ["poetry-core"]
+-build-backend = "poetry.core.masonry.api"
++requires = ["hatchling"]
++build-backend = "hatchling.build"
+
+ [tool.pytest.ini_options]
+ asyncio_default_fixture_loop_scope = "function"
