@@ -20,7 +20,7 @@ build:
 requirements:
   build:
     - patch
-    - m2-patch
+    - m2-patch #[win]
   host:
     - python
     - hatchling
