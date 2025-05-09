@@ -35,6 +35,9 @@ requirements:
     - eval-type-backport >=0.2.0
     - typing-inspection >=0.4.0
     - python-dateutil >=2.8.2
+  run_constrained:
+    - google-auth >=2.27.0
+    - requests >=2.32.3
 
 test:
   imports:
