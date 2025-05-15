@@ -8,9 +8,6 @@ package:
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/mistralai-{{ version }}.tar.gz
   sha256: 94e3eb23c1d3ed398a95352062fd8c92993cc3754ed18e9a35b60aa3db0bd103
-  patches:
-    # Switch from poetry-core to hatchling to work with [project] section metadata upstream
-    - patches/0001-fix-build-system.patch
 
 build:
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
@@ -18,12 +15,9 @@ build:
   skip: True  # [py<310]
 
 requirements:
-  build:
-    - patch   #[not win]
-    - m2-patch #[win]
   host:
     - python
-    - hatchling
+    - poetry-core
     - pip
     - setuptools
     - wheel
