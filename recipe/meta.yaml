@@ -12,23 +12,23 @@ source:
 build:
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
-  skip: True  # [py<310]
+  skip: True  # [py<39]
 
 requirements:
   host:
     - python
     - poetry-core
     - pip
-    - setuptools
-    - wheel
   run:
     - python
-    - orjson >=3.9.10,<3.11
     - pydantic >=2.10.3
     - httpx >=0.28.1
     - eval-type-backport >=0.2.0
     - typing-inspection >=0.4.0
     - python-dateutil >=2.8.2
+  run_constrained:
+    - google-auth >=2.27.0
+    - requests >=2.32.3
 
 test:
   imports:
@@ -36,8 +36,6 @@ test:
     - mistralai.models
     - mistralai.client
     - mistralai.utils
-  source_files:
-    - src/mistralai
   commands:
     - pip check
   requires:
