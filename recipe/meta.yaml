@@ -45,7 +45,6 @@ test:
     - mistralai.utils
   requires:
     - pip
-    - pytest >=8.2.2
   commands:
     - pip check
 
