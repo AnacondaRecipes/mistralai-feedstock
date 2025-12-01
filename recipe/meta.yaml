@@ -47,6 +47,9 @@ test:
     - pip
   commands:
     - pip check
+    # There are no tests in the source code,
+    # except upstream tests in https://github.com/mistralai/client-python/tree/main/src/mistralai/extra/tests
+    # but they have relative imports, so we can't run them here.
 
 about:
   home: https://github.com/mistralai/client-python
