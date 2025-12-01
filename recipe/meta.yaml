@@ -1,18 +1,18 @@
 {% set name = "mistralai" %}
-{% set version = "1.7.0" %}
+{% set version = "1.9.11" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/mistralai-{{ version }}.tar.gz
-  sha256: 94e3eb23c1d3ed398a95352062fd8c92993cc3754ed18e9a35b60aa3db0bd103
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: 3df9e403c31a756ec79e78df25ee73cea3eb15f86693773e16b16adaf59c9b8a
 
 build:
-  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
   skip: True  # [py<39]
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
@@ -21,14 +21,21 @@ requirements:
     - pip
   run:
     - python
-    - pydantic >=2.10.3
-    - httpx >=0.28.1
     - eval-type-backport >=0.2.0
-    - typing-inspection >=0.4.0
+    - httpx >=0.28.1
+    - pydantic >=2.10.3
     - python-dateutil >=2.8.2
+    - typing-inspection >=0.4.0
+    - pyyaml >=6.0.2,<7.0.0
+    - invoke >=2.2.0,<3.0.0
   run_constrained:
+    # gcp
     - google-auth >=2.27.0
     - requests >=2.32.3
+    # agents
+    - mcp >=1.0,<2.0  # [py>=310]
+    - griffe >=1.7.3,<2.0
+    - authlib >=1.5.2,<2.0
 
 test:
   imports:
@@ -36,10 +43,13 @@ test:
     - mistralai.models
     - mistralai.client
     - mistralai.utils
-  commands:
-    - pip check
   requires:
     - pip
+  commands:
+    - pip check
+    # There are no tests in the source code,
+    # except upstream tests in https://github.com/mistralai/client-python/tree/main/src/mistralai/extra/tests
+    # but they have relative imports, so we can't run them here.
 
 about:
   home: https://github.com/mistralai/client-python
