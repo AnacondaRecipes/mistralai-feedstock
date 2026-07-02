@@ -47,9 +47,7 @@ requirements:
 test:
   imports:
     - mistralai
-    - mistralai.models
     - mistralai.client
-    - mistralai.utils
   requires:
     - pip
   commands:
