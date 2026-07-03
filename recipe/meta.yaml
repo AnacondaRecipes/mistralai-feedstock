@@ -1,33 +1,35 @@
 {% set name = "mistralai" %}
-{% set version = "1.9.11" %}
+{% set version = "2.5.1" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 3df9e403c31a756ec79e78df25ee73cea3eb15f86693773e16b16adaf59c9b8a
+  sha256: 2c1c2ac8cc3b6c8789f2a4e47235bb5491485051d751b352dfc34c8f192ec35a
 
 build:
   number: 0
-  skip: True  # [py<39]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: true  # [py<310]
 
 requirements:
   host:
-    - python
-    - poetry-core
     - pip
+    - python
+    - hatchling
   run:
     - python
     - eval-type-backport >=0.2.0
     - httpx >=0.28.1
-    - pydantic >=2.10.3
+    - pydantic >=2.11.2
     - python-dateutil >=2.8.2
     - typing-inspection >=0.4.0
-    - pyyaml >=6.0.2,<7.0.0
-    - invoke >=2.2.0,<3.0.0
+    - opentelemetry-api >=1.33.1,<2.0.0
+    # Solver for some reason chose 0.61 when it was <0.61
+    - opentelemetry-semantic-conventions ==0.60b1
+    - jsonpath-python >=1.0.6
   run_constrained:
     # gcp
     - google-auth >=2.27.0
@@ -36,13 +38,17 @@ requirements:
     - mcp >=1.0,<2.0  # [py>=310]
     - griffe >=1.7.3,<2.0
     - authlib >=1.5.2,<2.0
+    # realtime
+    - websockets >=13.0
+    # telemetry
+    - opentelemetry-sdk >=1.33.1,<2.0.0
+    - opentelemetry-exporter-otlp-proto-http >=1.33.1,<2.0.0
+
 
 test:
   imports:
     - mistralai
-    - mistralai.models
     - mistralai.client
-    - mistralai.utils
   requires:
     - pip
   commands:
